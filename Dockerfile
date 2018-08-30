@@ -1,4 +1,4 @@
-FROM Ubuntu:16.04
+FROM ubuntu:16.04
 MAINTAINER "Yashwanth Manchala"
 RUN apt-get update
 RUN apt-get install -y nginx
