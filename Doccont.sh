@@ -7,7 +7,7 @@ do
 	echo "================================"
 	echo "creating www.Paytm$i conatiner.."
         sleep 1
-        docker run --name www.paytm$i -d -it yashwanthupsc/jenkins /bin/bash
+        docker run --name www.paytm$i -d -it --rm yashwanthupsc/jenkins /bin/bash
         echo "www.paytm$i container has been created"
         echo "======================================="
 done
