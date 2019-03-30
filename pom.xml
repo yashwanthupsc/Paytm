@@ -19,6 +19,12 @@
     <finalName>Paytm</finalName>
   </build>
   <distributionManagement>
+    
+  <repository>
+    <id>releases</id>
+    <name>Releases</name>
+    <url>http://192.168.0.110:8081/nexus/content/repositories/releases</url>
+  </repository>
  
   <snapshotRepository>
     <id>snapshots</id>
