@@ -25,11 +25,11 @@
     <name>Releases</name>
     <url>http://52.207.0.204:8081/nexus/content/repositories/releases</url>
   </repository>
-  <repository>
+  <testRepository>
     <id>testing</id>
     <name>Testing</name>
     <url>http://52.207.0.204:8081/nexus/content/repositories/testing</url>
-  </repository>
+  </restRepository>
    
  
   <snapshotRepository>
