@@ -1,0 +1,64 @@
+pipeline {
+    parameters
+    {
+        choice(choices: ['master', 'dev', 'feature'], description: 'select branch', name: 'Branch')
+        choice(choices: ['Dev', 'QA', 'Staging'], description: 'Deploying Environments', name: 'Environment')
+    }
+    agent any
+    stages
+    {
+        stage('Checkout')
+        {
+            steps
+            {
+                echo "Checking out code from Git Hub branch ${params.Branch}"
+                git credentialsId: 'a4fdb127-4891-479b-bd18-7b207d157115', url: 'https://github.com/yashwanthupsc/Paytm.git', branch: "${params.Branch}"
+            }
+        }
+        stage('Build')
+        {
+            steps
+            {
+                echo "Compile the code using maven"
+                echo "Execute Maven Life cycle Phases"
+                sh 'mvn clean compile'
+            }
+        }
+        stage('Test')
+        {
+            steps
+            {
+                echo "Testing....."
+                sh 'mvn test'
+            }
+        }
+        stage('Install the Package')
+        {
+            steps
+            {
+                sh 'mvn package'
+                echo "Install the package into Local Repository"
+            }
+        }
+        stage('Deploy')
+        {
+            steps
+            {
+                nexusPublisher nexusInstanceId: '1234', nexusRepositoryId: 'testing', packages: [[$class: 'MavenPackage', mavenAssetList: [[classifier: '', 
+extension: '', filePath: '/var/lib/jenkins/workspace/nexusjob/target/Paytm.war']], mavenCoordinate: [artifactId: 'Paytm', groupId: 'com.Paytm', packaging: 
+'war', version: '1.3']]]
+                
+                echo "Deploying into Remote Repo ${params.Environment}"
+            }
+        }
+    }
+    post
+    {
+        always
+        {
+            echo 'Hello World'
+            sh 'pwd'
+            sh 'curl -X GET -u test:test http://52.207.232.62:8081/nexus/content/repositories/testing/com/Paytm/Paytm/1.3/Paytm.war -O '
+        }
+    }
+}
